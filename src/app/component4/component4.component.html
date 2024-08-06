@@ -1,0 +1,58 @@
+<form class="form w-50 mx-auto mt-5 text-center mb-5" [formGroup]="formulario">
+    <input type="number" class="form-control" formControlName="id" readonly *ngIf="!btnCadastrar" />
+    @if(formulario.get('nome').hasError('required')&&formulario.get('nome').touched){
+        <p class="alert alert-warning">Preencha o campo nome do produto.</p>
+    }
+    @if(formulario.get('nome').hasError('minlength')&&formulario.get('nome').touched){
+        <p class="alert alert-warning">O campo nome precisa ter mais de 3 caracteres.</p>
+    }
+    <input type="text"class="form-control" formControlName="nome" placeholder="Nome"/>
+    @if(formulario.get('valor').hasError('required')&&formulario.get('valor').touched){
+        <p class="alert alert-warning">Preencha o campo valor do produto.</p>
+    }
+    @if(formulario.get('valor').hasError('min')&&formulario.get('valor').touched){
+        <p class="alert alert-warning">O campo valor do produto precisa ser maior que 0.</p>
+    }
+    @if(formulario.get('valor').hasError('max')&&formulario.get('valor').touched){
+        <p class="alert alert-warning">O campo valor do produto excede o máximo permitido.</p>
+    }
+    <input type="number"class="form-control" formControlName="valor" placeholder="Valor"/>
+
+    <input type="button"class="btn btn-primary" value="Cadastrar" *ngIf="btnCadastrar" [disabled]="formulario.invalid"  (click)="cadastrar()"/>
+    <input type="button"class="btn btn-primary" value="Alterar" *ngIf="!btnCadastrar" [disabled]="formulario.invalid" (click)="alterar()"/>
+    <input type="button"class="btn btn-primary" value="Remover" *ngIf="!btnCadastrar" [disabled]="formulario.invalid" (click)="remover()"/>
+</form>
+<form [formGroup]="formPesquisa">
+    <input type="text"class="form-control w-50 mx-auto" formControlName="pesquisa" placeholder="Buscar produto"/>
+</form>
+<table class="table mx-auto w-50 text-center" border="2px">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Nome</th>
+            <th>Valor</th>
+            <th>Selecionar</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        @if (formPesquisa.value.pesquisa.length==0) {
+            <tr *ngFor="let v of vetor; let indice = index">
+                <td>{{indice+1}}</td>
+                <td>{{v.nome}}</td>
+                <td>{{v.valor}}</td>
+                <td><button class="btn btn-primary" (click)="selecionarProduto(indice)">Selecionar</button></td>
+            </tr>
+        } @else{
+            <tr *ngFor="let v of filtrarProdutos(); let indice = index">
+                <td>{{indice+1}}</td>
+                <td>{{v.nome}}</td>
+                <td>{{v.valor}}</td>
+                <td><button class="btn btn-primary" (click)="selecionarProduto(indice)">Selecionar</button></td>
+            </tr>    
+        }
+        
+    </tbody>
+</table>
+<!--Observable pode fazer função de tempo em tempo para verificar se houve modificações-->
+<!--Caso haja, irá executar um subscribe, avisar que há informação nova-->

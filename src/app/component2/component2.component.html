@@ -1,0 +1,24 @@
+<p>{{nome | uppercase}}</p>
+<p>{{nome | lowercase}}</p>
+<!--Retorna toda a estrutura do objeto-->
+<p>{{obj | json}}</p>
+
+
+<table class="table w-50 mx-auto" border="2px">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Nota 1</th>
+            <th>Nota 2</th>
+            <th>Média</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let a of alunos">
+           <td>{{a.nome}}</td>
+           <td>{{a.nota1}}</td>
+           <td>{{a.nota2}}</td>
+           <td>{{a | media}}</td> 
+        </tr>
+    </tbody>
+</table>
